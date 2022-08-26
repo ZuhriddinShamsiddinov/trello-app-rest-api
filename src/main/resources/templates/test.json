@@ -1,0 +1,60 @@
+{
+  "createdAt": "2022-08-26T08:38:12.312341",
+  "updatedAt": "2022-08-26T08:50:36.490674",
+  "createdBy": 1,
+  "updatedBy": 1,
+  "id": 1,
+  "name": "JAVA_BEST",
+  "background": "ORANGE",
+  "visibility": "WORKSPACE",
+  "workspace": {
+    "createdAt": "2022-08-25T14:41:31.412304",
+    "updatedAt": "2022-08-25T14:44:37.103943",
+    "createdBy": 1,
+    "updatedBy": 1,
+    "id": 4,
+    "name": "SPORT",
+    "description": "SPORT",
+    "workspaceType": "ENGINEERING_IT",
+    "workspaceStatus": "FREE",
+    "users": [
+      {
+        "id": 1,
+        "username": "zuhriddin",
+        "password": "$2a$10$SWVKfIBRbSsWAYbUz3J6KuClmrrM68LwyduzjcrVj30Zt5MOG9m1K",
+        "loginTryCount": 0,
+        "email": "zuhriddin@gmail.com",
+        "lastLoginTime": "2022-08-26T08:54:20.99924",
+        "status": "ACTIVE",
+        "roles": [],
+        "active": true
+      },
+      {
+        "id": 2,
+        "username": "user",
+        "password": "$2a$10$dPdPvjXec4qHxYj5PBlMiOgXqlbFVn.lT3soroLY1/KhfGb2AprJG",
+        "loginTryCount": 0,
+        "email": "user@gmail.com",
+        "lastLoginTime": "2022-08-26T08:31:03.206834",
+        "status": "ACTIVE",
+        "roles": [],
+        "active": true
+      }
+    ],
+    "deleted": false
+  },
+  "users": [
+    {
+      "id": 1,
+      "username": "zuhriddin",
+      "password": "$2a$10$SWVKfIBRbSsWAYbUz3J6KuClmrrM68LwyduzjcrVj30Zt5MOG9m1K",
+      "loginTryCount": 0,
+      "email": "zuhriddin@gmail.com",
+      "lastLoginTime": "2022-08-26T08:54:20.99924",
+      "status": "ACTIVE",
+      "roles": [],
+      "active": true
+    }
+  ],
+  "deleted": false
+}
