@@ -6,6 +6,7 @@ import uz.jl.trelloapprest.domains.base.Auditable;
 import uz.jl.trelloapprest.enums.Visibility;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class Board extends Auditable {
 
 
     @Builder
-    public Board(LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String name, String background, Visibility visibility, Workspace workspace, List<AuthUser> users) {
+    public Board(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String name, String background, Visibility visibility, Workspace workspace, List<AuthUser> users) {
         super(createdAt, updatedAt, createdBy, updatedBy, isDeleted);
         this.id = id;
         this.name = name;

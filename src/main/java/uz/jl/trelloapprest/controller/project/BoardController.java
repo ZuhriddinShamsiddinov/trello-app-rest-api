@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.controller.base.ApiController;
 import uz.jl.trelloapprest.domains.project.Board;
-import uz.jl.trelloapprest.domains.project.Workspace;
 import uz.jl.trelloapprest.dtos.project.BoardCreateDTO;
 import uz.jl.trelloapprest.dtos.project.BoardUpdateDTO;
-import uz.jl.trelloapprest.projection.BoardViewProjection;
+import uz.jl.trelloapprest.dtos.response.BoardDTO;
 import uz.jl.trelloapprest.response.ApiResponse;
 import uz.jl.trelloapprest.services.project.BoardService;
 
@@ -24,9 +23,9 @@ public class BoardController extends ApiController<BoardService> {
         super(service);
     }
 
-    @GetMapping(value = PATH + "/board", produces = "application/json")
-    public ApiResponse<List<Board>> getAll(@AuthenticationPrincipal UserDetails userDetails) {
-        return new ApiResponse<>(service.getAll(userDetails));
+    @GetMapping(value = PATH + "/board/all/{workspaceId}", produces = "application/json")
+    public ApiResponse<List<BoardDTO>> getAll(@PathVariable Long workspaceId, @AuthenticationPrincipal UserDetails userDetails) {
+        return new ApiResponse<>(service.getAll(workspaceId, userDetails));
     }
 
     @GetMapping(value = PATH + "/board/{id}", produces = "application/json")
@@ -35,7 +34,7 @@ public class BoardController extends ApiController<BoardService> {
     }
 
     @PostMapping(value = PATH + "/board/create", produces = "application/json")
-    public ApiResponse<Board> create(@RequestBody @Valid BoardCreateDTO createDTO,
+    public ApiResponse<BoardDTO> create(@RequestBody @Valid BoardCreateDTO createDTO,
                                      @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.save(createDTO, userDetails));
     }

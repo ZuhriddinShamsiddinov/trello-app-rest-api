@@ -4,6 +4,7 @@ import lombok.*;
 import uz.jl.trelloapprest.domains.base.Auditable;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -29,7 +30,7 @@ public class BoardColumn extends Auditable {
     private Board board;
 
     @Builder
-    public BoardColumn(LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String title, int cardOrder) {
+    public BoardColumn(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String title, int cardOrder) {
         super(createdAt, updatedAt, createdBy, updatedBy, isDeleted);
         this.id = id;
         this.title = title;

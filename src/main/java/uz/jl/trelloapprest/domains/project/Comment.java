@@ -5,6 +5,7 @@ import uz.jl.trelloapprest.domains.auth.AuthUser;
 import uz.jl.trelloapprest.domains.base.Auditable;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -30,7 +31,7 @@ public class Comment extends Auditable {
     private Task task;
 
     @Builder
-    public Comment(LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String body, AuthUser authUser, Task task) {
+    public Comment(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String body, AuthUser authUser, Task task) {
         super(createdAt, updatedAt, createdBy, updatedBy, isDeleted);
         this.id = id;
         this.body = body;

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -17,8 +18,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Auditable {
-    protected LocalDateTime createdAt = LocalDateTime.now();
-    protected LocalDateTime updatedAt;
+    protected Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+    protected Timestamp updatedAt;
     protected Long createdBy;
     protected Long updatedBy;
     protected boolean isDeleted = false;

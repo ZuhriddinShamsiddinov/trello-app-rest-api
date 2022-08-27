@@ -7,6 +7,7 @@ import uz.jl.trelloapprest.enums.WorkspaceStatus;
 import uz.jl.trelloapprest.enums.WorkspaceType;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Workspace extends Auditable {
     private List<AuthUser> users;
 
     @Builder
-    public Workspace(LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String name, String description, WorkspaceType workspaceType, WorkspaceStatus workspaceStatus, List<AuthUser> users) {
+    public Workspace(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String name, String description, WorkspaceType workspaceType, WorkspaceStatus workspaceStatus, List<AuthUser> users) {
         super(createdAt, updatedAt, createdBy, updatedBy, isDeleted);
         this.id = id;
         this.name = name;

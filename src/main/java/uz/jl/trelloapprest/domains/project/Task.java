@@ -5,7 +5,7 @@ import uz.jl.trelloapprest.domains.auth.AuthUser;
 import uz.jl.trelloapprest.domains.base.Auditable;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -41,7 +41,7 @@ public class Task extends Auditable {
     private List<AuthUser> users;
 
     @Builder
-    public Task(LocalDateTime createdAt, LocalDateTime updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String title, String description, BoardColumn boardColumn, List<AuthUser> users) {
+    public Task(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted, Long id, String title, String description, BoardColumn boardColumn, List<AuthUser> users) {
         super(createdAt, updatedAt, createdBy, updatedBy, isDeleted);
         this.id = id;
         this.title = title;
