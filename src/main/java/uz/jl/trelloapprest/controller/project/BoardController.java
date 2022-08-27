@@ -29,13 +29,13 @@ public class BoardController extends ApiController<BoardService> {
     }
 
     @GetMapping(value = PATH + "/board/{id}", produces = "application/json")
-    public ApiResponse<Board> getOne(@PathVariable(value = "id") Long workspaceId) {
-        return new ApiResponse<>(service.getOne(workspaceId));
+    public ApiResponse<BoardDTO> getOne(@PathVariable(value = "id") Long boardId, @AuthenticationPrincipal UserDetails userDetails) {
+        return new ApiResponse<>(service.getOne(boardId, userDetails));
     }
 
     @PostMapping(value = PATH + "/board/create", produces = "application/json")
     public ApiResponse<BoardDTO> create(@RequestBody @Valid BoardCreateDTO createDTO,
-                                     @AuthenticationPrincipal UserDetails userDetails) {
+                                        @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.save(createDTO, userDetails));
     }
 
@@ -46,8 +46,8 @@ public class BoardController extends ApiController<BoardService> {
     }
 
     @DeleteMapping(value = PATH + "/board/{id}", produces = "application/json")
-    public ApiResponse<?> delete(@PathVariable(value = "id") Long boardId) {
-        service.delete(boardId);
+    public ApiResponse<?> delete(@PathVariable(value = "id") Long boardId, @AuthenticationPrincipal UserDetails userDetails) {
+        service.delete(boardId, userDetails);
         return new ApiResponse<>(204);
     }
 }

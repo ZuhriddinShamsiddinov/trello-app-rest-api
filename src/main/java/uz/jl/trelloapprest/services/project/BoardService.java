@@ -9,8 +9,10 @@ import uz.jl.trelloapprest.domains.project.Workspace;
 import uz.jl.trelloapprest.dtos.project.BoardCreateDTO;
 import uz.jl.trelloapprest.dtos.project.BoardUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.BoardDTO;
+import uz.jl.trelloapprest.dtos.response.WorkspaceDTO;
 import uz.jl.trelloapprest.enums.Visibility;
 import uz.jl.trelloapprest.exceptions.GenericNotFoundException;
+import uz.jl.trelloapprest.exceptions.GenericRuntimeException;
 import uz.jl.trelloapprest.mappers.BoardMapper;
 import uz.jl.trelloapprest.repository.project.BoardRepository;
 import uz.jl.trelloapprest.repository.project.WorkspaceRepository;
@@ -19,6 +21,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author - 'Zuhriddin Shamsiddionov' at 3:04 PM 8/25/22 on Thursday in August
@@ -64,8 +67,12 @@ public class BoardService {
         });
     }
 
-    public void delete(Long boardId) {
+
+    public void delete(Long boardId, UserDetails userDetails) {
         Board board = getBoardById(boardId);
+        if (!Objects.equals(board.getCreatedBy(), userDetails.authUser().getId())) {
+            throw new GenericRuntimeException("You have not permission for delete", 403);
+        }
         board.setDeleted(true);
         boardRepository.save(board);
     }
@@ -80,11 +87,21 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Board getOne(Long boardId) {
-        Board board = getBoardById(boardId);
+    private void isBoardDeleted(Board board) {
         if (board.isDeleted()) {
             throw new GenericNotFoundException("Board not found", 404);
         }
-        return board;
+    }
+
+    public BoardDTO getOne(Long boardId, UserDetails userDetails) {
+        Board brd = boardRepository
+                .findBoardByDeletedFalse(boardId, userDetails.authUser().getId())
+                .stream()
+                .filter(board -> board.getId().equals(boardId))
+                .findFirst().orElseThrow(() -> {
+                    throw new GenericNotFoundException("Board not found", 404);
+                });
+        isBoardDeleted(brd);
+        return boardMapper.toDTO(brd);
     }
 }

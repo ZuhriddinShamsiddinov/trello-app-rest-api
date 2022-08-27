@@ -49,7 +49,11 @@ public class WorkspaceService {
     }
 
     public WorkspaceDTO getOne(Long workspaceId, UserDetails userDetails) {
-        Workspace ww = workspaceRepository.findAllByDeletedIsFalse(userDetails.authUser().getId()).stream().filter(workspace -> workspace.getId().equals(workspaceId)).findFirst().orElseThrow(() -> {
+        Workspace ww = workspaceRepository
+                .findAllByDeletedIsFalse(userDetails.authUser().getId())
+                .stream()
+                .filter(workspace -> workspace.getId().equals(workspaceId))
+                .findFirst().orElseThrow(() -> {
             throw new GenericNotFoundException("Workspace not found", 404);
         });
         isWorkspaceDeleted(ww);
