@@ -8,7 +8,7 @@ public enum WorkspaceStatus {
 
     public static WorkspaceStatus findByName(String status) {
         for (WorkspaceStatus stats : values()) {
-            if (stats.name().contains(status))
+            if (stats.name().contains(status) || stats.name().equalsIgnoreCase(status))
                 return stats;
         }
         return FREE;
