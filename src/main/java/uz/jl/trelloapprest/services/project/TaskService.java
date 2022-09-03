@@ -6,6 +6,7 @@ import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.domains.auth.AuthUser;
 import uz.jl.trelloapprest.domains.project.BoardColumn;
 import uz.jl.trelloapprest.domains.project.Task;
+import uz.jl.trelloapprest.dtos.project.TaskBoardColumnDTO;
 import uz.jl.trelloapprest.dtos.project.TaskCreateDTO;
 import uz.jl.trelloapprest.dtos.project.TaskUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.TaskDTO;
@@ -26,6 +27,7 @@ import java.util.Objects;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final BoardColumnRepository boardColumnRepository;
+    private final BoardColumnService boardColumnService;
     private final TaskMapper taskMapper;
 
     public List<TaskDTO> getAll(Long boardColumnId, UserDetails userDetails) {
@@ -39,13 +41,13 @@ public class TaskService {
         List<AuthUser> userList = new ArrayList<>();
         userList.add(userDetails.authUser());
         task.setUsers(userList);
-        BoardColumn boardColumn = getWorkspaceById(createDTO.getBoardColumnId());
+        BoardColumn boardColumn = getBoardColumnById(createDTO.getBoardColumnId());
         task.setBoardColumn(boardColumn);
         Task save = taskRepository.save(task);
         return taskMapper.toDTO(save);
     }
 
-    private BoardColumn getWorkspaceById(Long id) {
+    private BoardColumn getBoardColumnById(Long id) {
         BoardColumn boardColumn = boardColumnRepository.findById(id).orElseThrow(() -> {
             throw new GenericNotFoundException("BoardColumn Not Found", 404);
         });
@@ -77,7 +79,7 @@ public class TaskService {
         task.setDescription(updateDTO.getDescription());
         task.setUpdatedBy(userDetails.authUser().getId());
         task.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        task.setBoardColumn(getWorkspaceById(updateDTO.getBoardColumnId()));
+        task.setBoardColumn(getBoardColumnById(updateDTO.getBoardColumnId()));
         Task save = taskRepository.save(task);
         return taskMapper.toDTO(save);
     }
@@ -94,9 +96,18 @@ public class TaskService {
                 .stream()
                 .filter(board -> board.getId().equals(taskId))
                 .findFirst().orElseThrow(() -> {
-                    throw new GenericNotFoundException("Board not found", 404);
+                    throw new GenericNotFoundException("Task not found", 404);
                 });
         isTaskDeleted(task);
         return taskMapper.toDTO(task);
+    }
+
+    public void setBoardColumn(TaskBoardColumnDTO dto, UserDetails userDetails) {
+        Task task = taskRepository
+                .findById(getOne(dto.getTaskId(), userDetails).getId()).get();
+        BoardColumn boardColumn = boardColumnRepository
+                .findById(boardColumnService.getOne(dto.getBoardColumnId(), userDetails).getId()).get();
+        task.setBoardColumn(boardColumn);
+        taskRepository.save(task);
     }
 }

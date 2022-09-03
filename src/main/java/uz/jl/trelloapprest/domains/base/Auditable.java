@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -23,4 +22,12 @@ public abstract class Auditable {
     protected Long createdBy;
     protected Long updatedBy;
     protected boolean isDeleted = false;
+
+    public Auditable(Timestamp createdAt, Timestamp updatedAt, Long createdBy, Long updatedBy, boolean isDeleted) {
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+        this.updatedAt = updatedAt;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.isDeleted = isDeleted;
+    }
 }

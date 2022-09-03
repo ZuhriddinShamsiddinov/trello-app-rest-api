@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.controller.base.ApiController;
+import uz.jl.trelloapprest.dtos.project.TaskBoardColumnDTO;
 import uz.jl.trelloapprest.dtos.project.TaskCreateDTO;
 import uz.jl.trelloapprest.dtos.project.TaskUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.TaskDTO;
@@ -14,15 +15,15 @@ import uz.jl.trelloapprest.services.project.TaskService;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 public class TaskController extends ApiController<TaskService> {
     protected TaskController(TaskService service) {
         super(service);
     }
 
-    @GetMapping(value = PATH + "/task/all/{boardId}", produces = "application/json")
-    public ApiResponse<List<TaskDTO>> getAll(@PathVariable Long boardId, @AuthenticationPrincipal UserDetails userDetails) {
-        return new ApiResponse<>(service.getAll(boardId, userDetails));
+    @GetMapping(value = PATH + "/task/all/{boardColumnId}", produces = "application/json")
+    public ApiResponse<List<TaskDTO>> getAll(@PathVariable Long boardColumnId, @AuthenticationPrincipal UserDetails userDetails) {
+        return new ApiResponse<>(service.getAll(boardColumnId, userDetails));
     }
 
     @GetMapping(value = PATH + "/task/{id}", produces = "application/json")
@@ -32,13 +33,19 @@ public class TaskController extends ApiController<TaskService> {
 
     @PostMapping(value = PATH + "/task/create", produces = "application/json")
     public ApiResponse<TaskDTO> create(@RequestBody @Valid TaskCreateDTO createDTO,
-                                        @AuthenticationPrincipal UserDetails userDetails) {
+                                       @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.save(createDTO, userDetails));
+    }
+
+    @PostMapping(value = PATH + "/task/set/boardColumn", produces = "application/json")
+    public ApiResponse<?> setBoardColumn(@RequestBody TaskBoardColumnDTO dto, @AuthenticationPrincipal UserDetails userDetails) {
+        service.setBoardColumn(dto, userDetails);
+        return new ApiResponse<>(204);
     }
 
     @PutMapping(value = PATH + "/task", produces = "application/json")
     public ApiResponse<TaskDTO> create(@RequestBody @Valid TaskUpdateDTO updateDTO,
-                                     @AuthenticationPrincipal UserDetails userDetails) {
+                                       @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.update(updateDTO, userDetails));
     }
 
