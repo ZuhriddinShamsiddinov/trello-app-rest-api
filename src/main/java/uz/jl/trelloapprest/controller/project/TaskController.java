@@ -1,7 +1,6 @@
 package uz.jl.trelloapprest.controller.project;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.controller.base.ApiController;
@@ -38,13 +37,13 @@ public class TaskController extends ApiController<TaskService> {
     }
 
     @PostMapping(value = PATH + "/task/set/boardColumn", produces = "application/json")
-    public ApiResponse<?> setBoardColumn(@RequestBody TaskBoardColumnDTO dto, @AuthenticationPrincipal UserDetails userDetails) {
+    public ApiResponse<?> setBoardColumn(@RequestBody @Valid TaskBoardColumnDTO dto, @AuthenticationPrincipal UserDetails userDetails) {
         service.setBoardColumn(dto, userDetails);
         return new ApiResponse<>(204);
     }
 
     @PutMapping(value = PATH + "/task", produces = "application/json")
-    public ApiResponse<TaskDTO> create(@RequestBody @Valid TaskUpdateDTO updateDTO,
+    public ApiResponse<TaskDTO> update(@RequestBody @Valid TaskUpdateDTO updateDTO,
                                        @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.update(updateDTO, userDetails));
     }

@@ -40,7 +40,7 @@ public class BoardController extends ApiController<BoardService> {
     }
 
     @PutMapping(value = PATH + "/board", produces = "application/json")
-    public ApiResponse<Board> create(@RequestBody @Valid BoardUpdateDTO updateDTO,
+    public ApiResponse<Board> update(@RequestBody @Valid BoardUpdateDTO updateDTO,
                                      @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.update(updateDTO, userDetails));
     }

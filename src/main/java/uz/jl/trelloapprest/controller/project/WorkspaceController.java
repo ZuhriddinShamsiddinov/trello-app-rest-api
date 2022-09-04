@@ -1,11 +1,9 @@
 package uz.jl.trelloapprest.controller.project;
 
-import org.apache.catalina.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.controller.base.ApiController;
-import uz.jl.trelloapprest.domains.project.Workspace;
 import uz.jl.trelloapprest.dtos.project.WorkspaceCreateDTO;
 import uz.jl.trelloapprest.dtos.project.WorkspaceUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.WorkspaceDTO;

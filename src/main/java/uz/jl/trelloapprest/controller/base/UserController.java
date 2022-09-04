@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<List<AuthUser>> getAll() {
-        return new ApiResponse<List<AuthUser>>(List.of(AuthUser.builder()
+        return new ApiResponse<>(List.of(AuthUser.builder()
                 .username("John")
                 .password("123")
                 .lastLoginTime(LocalDateTime.now())

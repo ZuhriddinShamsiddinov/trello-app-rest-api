@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.jl.trelloapprest.domains.project.BoardColumn;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
