@@ -6,8 +6,11 @@ import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.domains.project.Board;
 import uz.jl.trelloapprest.domains.project.BoardColumn;
 import uz.jl.trelloapprest.dtos.project.BoardColumnCreateDTO;
+import uz.jl.trelloapprest.dtos.project.BoardColumnMoveDTO;
 import uz.jl.trelloapprest.dtos.project.BoardColumnUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.BoardColumnDTO;
+import uz.jl.trelloapprest.events.EventPublisher;
+import uz.jl.trelloapprest.events.GenericEvent;
 import uz.jl.trelloapprest.exceptions.GenericNotFoundException;
 import uz.jl.trelloapprest.exceptions.GenericRuntimeException;
 import uz.jl.trelloapprest.mappers.BoardColumnMapper;
@@ -28,6 +31,7 @@ public class BoardColumnService {
     private final BoardColumnRepository boardColumnRepository;
     private final BoardColumnMapper boardColumnMapper;
     private final BoardRepository boardRepository;
+    private final EventPublisher eventPublisher;
 
     public List<BoardColumnDTO> getAll(Long boardId, UserDetails userDetails) {
         List<BoardColumn> boardList = boardColumnRepository.findAllByDeletedFalse(boardId, userDetails.authUser().getId());
@@ -94,5 +98,13 @@ public class BoardColumnService {
                 });
         isBoardDeleted(bc);
         return boardColumnMapper.toDTO(bc);
+    }
+
+    public void move(BoardColumnMoveDTO dto) {
+        boardColumnRepository.findById(dto.getBoardColumnId()).orElseThrow(() -> {
+            throw new GenericNotFoundException("BoardColumn bot found", 404);
+        });
+        GenericEvent<BoardColumnMoveDTO> genericEvent = new GenericEvent<>(dto, true);
+        eventPublisher.publishCustomEvent(genericEvent);
     }
 }

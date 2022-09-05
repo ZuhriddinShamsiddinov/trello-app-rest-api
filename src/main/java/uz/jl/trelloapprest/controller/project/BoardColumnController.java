@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.jl.trelloapprest.config.security.UserDetails;
 import uz.jl.trelloapprest.controller.base.ApiController;
 import uz.jl.trelloapprest.dtos.project.BoardColumnCreateDTO;
+import uz.jl.trelloapprest.dtos.project.BoardColumnMoveDTO;
 import uz.jl.trelloapprest.dtos.project.BoardColumnUpdateDTO;
 import uz.jl.trelloapprest.dtos.response.BoardColumnDTO;
 import uz.jl.trelloapprest.response.ApiResponse;
@@ -49,4 +50,12 @@ public class BoardColumnController extends ApiController<BoardColumnService> {
                                               @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.update(updateDTO, userDetails));
     }
+
+    @PutMapping(value = "/board_column/change_order", produces = "application/json")
+    public ApiResponse<?> changeBoardColumnOrder(@RequestBody @Valid BoardColumnMoveDTO dto) {
+        service.move(dto);
+        return new ApiResponse<>(209);
+    }
+
+
 }
