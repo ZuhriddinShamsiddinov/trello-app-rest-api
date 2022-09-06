@@ -30,17 +30,20 @@ public class BoardColumnController extends ApiController<BoardColumnService> {
     }
 
     @GetMapping(value = PATH + "/board_column/all/{boardId}", produces = "application/json")
-    public ApiResponse<List<BoardColumnDTO>> getAll(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal UserDetails userDetails) {
+    public ApiResponse<List<BoardColumnDTO>> getAll(@PathVariable("boardId") Long boardId,
+                                                    @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.getAll(boardId, userDetails));
     }
 
     @GetMapping(value = PATH + "/board_column/{id}", produces = "application/json")
-    public ApiResponse<BoardColumnDTO> getOne(@PathVariable(value = "id") Long board_columnId, @AuthenticationPrincipal UserDetails userDetails) {
+    public ApiResponse<BoardColumnDTO> getOne(@PathVariable(value = "id") Long board_columnId,
+                                              @AuthenticationPrincipal UserDetails userDetails) {
         return new ApiResponse<>(service.getOne(board_columnId, userDetails));
     }
 
     @DeleteMapping(value = PATH + "/board_column/{id}", produces = "application/json")
-    public ApiResponse<Boolean> delete(@PathVariable(value = "id") Long board_columnId, @AuthenticationPrincipal UserDetails userDetails) {
+    public ApiResponse<Boolean> delete(@PathVariable(value = "id") Long board_columnId,
+                                       @AuthenticationPrincipal UserDetails userDetails) {
         service.delete(board_columnId, userDetails);
         return new ApiResponse<>(204);
     }

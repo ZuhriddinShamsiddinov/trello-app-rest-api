@@ -6,7 +6,7 @@ import uz.jl.trelloapprest.domains.base.Auditable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 /**
  * @author - 'Zuhriddin Shamsiddionov' at 4:20 PM 8/24/22 on Wednesday in August

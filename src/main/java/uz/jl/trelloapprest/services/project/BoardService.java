@@ -34,8 +34,7 @@ public class BoardService {
     private final WorkspaceRepository workspaceRepository;
 
     public List<BoardDTO> getAll(Long workspaceId, UserDetails userDetails) {
-        List<Board> boardList = boardRepository.findAllByDeletedFalse(workspaceId, userDetails.authUser().getId());
-        return boardMapper.toDTOList(boardList);
+        return boardMapper.toDTOList(boardRepository.findAllByDeletedFalse(workspaceId, userDetails.authUser().getId()));
     }
 
     public BoardDTO save(BoardCreateDTO createDTO, UserDetails userDetails) {
